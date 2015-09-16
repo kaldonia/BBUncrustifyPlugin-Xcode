@@ -64,9 +64,13 @@
 			}
 			return nil;
 		}
-		BOOL isObjectiveCFile = ([[NSWorkspace sharedWorkspace] type:uti conformsToType:(NSString *)kUTTypeObjectiveCSource]
-			|| [[NSWorkspace sharedWorkspace] type:uti conformsToType:(NSString *)kUTTypeCHeader]);
-			
+		
+		// We are using *.h header containing c++ syntax. This breaks when formatting with -lOC.
+        //        BOOL isObjectiveCFile = ([[NSWorkspace sharedWorkspace] type:uti conformsToType:(NSString *)kUTTypeObjectiveCSource]
+        //			|| [[NSWorkspace sharedWorkspace] type:uti conformsToType:(NSString *)kUTTypeCHeader]);
+
+		BOOL isObjectiveCFile = [[NSWorkspace sharedWorkspace] type:uti conformsToType:(NSString *)kUTTypeObjectiveCSource];
+        
 		if (isObjectiveCFile) {
 			[args addObjectsFromArray:@[@"-l", @"OC"]];
 		}
